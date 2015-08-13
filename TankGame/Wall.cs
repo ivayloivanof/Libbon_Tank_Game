@@ -7,10 +7,10 @@
         private int vertical;
         private int horizontal;
         
-        public Wall(int h, int v)
+        public Wall(int horizontal, int vertical)
         {
-            this.Horizontal = h;
-            this.Vertical = v;
+            this.Horizontal = horizontal;
+            this.Vertical = vertical;
         }
 
         // Property for vertical position
