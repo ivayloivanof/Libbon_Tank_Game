@@ -4,23 +4,41 @@
     using System.Collections;
     using System.IO;
 
+    using Exception;
+
     public class MapFile
     {
-        private string file;
+        private string mapFile;
         private ArrayList tanks = new ArrayList();
         private ArrayList walls = new ArrayList();
         
-        public MapFile(string f)
+        public MapFile(string mapFile)
         {
-            // Verifies that file exists
             try
             {
-                file = f;
+                // TODO add cheking for that mapFile exist
+                this.FileMap = mapFile;
             }
-            // Throws exception
-            catch (FileNotFoundException fe)
+            catch (FileMapNotFound ex)
             {
-                Console.WriteLine(fe.Message);
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public string FileMap {
+            get
+            {
+                return this.mapFile;
+            }
+
+            private set
+            {
+                if (!File.Exists(value))
+                {
+                    throw new FileMapNotFound("This mapFile missing!");
+                }
+
+                this.mapFile = value;
             }
         }
 
@@ -38,7 +56,7 @@
         {
             try
             {
-                StreamReader input = new StreamReader(file);
+                StreamReader input = new StreamReader(this.mapFile);
                 // Reads tank lines
                 String s1 = input.ReadLine();
                 String s2 = input.ReadLine();
@@ -90,7 +108,7 @@
                     walls.Add(wall);
                 }
 
-                // Closes file
+                // Closes mapFile
                 input.Close();
             }
             catch(System.Exception e)  //TODO remove Exception
