@@ -15,10 +15,10 @@
         // Constructor for bullet
         public Bullet(int h, int v, int d)
         {
-            this.vertical = v;
-            this.horizontal = h;
-            this.direction = d;
-            this.isActive = true;
+            this.Vertical = v;
+            this.Horizontal = h;
+            this.Direction = d;
+            this.IsActive = true;
         }
 
         // Property for vertical position
@@ -72,6 +72,12 @@
             get
             {
                 return this.isActive;
+            }
+
+            set
+            {
+                // TODO Validation
+                this.isActive = value;
             }
         }
         
