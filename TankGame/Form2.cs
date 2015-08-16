@@ -50,12 +50,12 @@
             this.playerTwoName = playerTwo;
             this.mapFile = mapFile;
 
-            // Load MapFile data
+            // Load MapMapFile data
             this.Size = new System.Drawing.Size(800, 600);
             MapFile file = new MapFile("C:\\Users\\Frankie\\Documents\\C#\\TankGame\\" + this.mapFile);
             file.LoadData();
 
-            // Load tanks for MapFile
+            // Load tanks for MapMapFile
             this.tank1 = (Tank)file.Tanks[0];
             this.tank2 = (Tank)file.Tanks[1];
 
