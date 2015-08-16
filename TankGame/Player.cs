@@ -2,32 +2,38 @@
 {
     using System.Text;
 
+    using TankGame.Exception;
+
     public class Player
     {
-        private string charName;
+        private string name;
         private int playerID;
         private int tanksLost;
-        private GameConstants gc = new GameConstants();
+        private GameConstants gameConstants = new GameConstants();
         
         public Player(string name, int i)
         {
-            this.CharName = name;
+            this.Name = name;
             this.PlayerID = i;
             this.TanksLost = 0;
         }
 
-        // Property for charName
-        public string CharName
+        // Property for name
+        public string Name
         {
             get
             {
-                return this.charName;
+                return this.name;
             }
 
             set
             {
-                // TODO Validation
-                this.charName = value;
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new UserErrorException("Name of this user cannot be empty!");
+                }
+
+                this.name = value;
             }
         }
         
@@ -68,7 +74,7 @@
         // Method to tell if player has lost
         public bool GameLost()
         {
-            return this.TanksLost >= this.gc.MaxLives;
+            return this.TanksLost >= this.gameConstants.MaxLives;
         }
 
         // toString
@@ -76,7 +82,7 @@
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("Name: ");
-            stringBuilder.Append(this.CharName);
+            stringBuilder.Append(this.Name);
             stringBuilder.Append(" Id: ");
             stringBuilder.Append(this.PlayerID);
             stringBuilder.Append(" Tanks Lost: ");
