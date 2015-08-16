@@ -31,7 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.NamePlayerThree = new System.Windows.Forms.TextBox();
+            this.NamePlayerOne = new System.Windows.Forms.TextBox();
             this.NamePlayerTwo = new System.Windows.Forms.TextBox();
             this.MapFileName = new System.Windows.Forms.TextBox();
             this.ClearButton = new System.Windows.Forms.Button();
@@ -68,14 +68,14 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "Map Filename:";
             // 
-            // NamePlayerThree
+            // NamePlayerOne
             // 
-            this.NamePlayerThree.Font = new System.Drawing.Font("Consolas", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.NamePlayerThree.Location = new System.Drawing.Point(127, 33);
-            this.NamePlayerThree.Margin = new System.Windows.Forms.Padding(4);
-            this.NamePlayerThree.Name = "NamePlayerThree";
-            this.NamePlayerThree.Size = new System.Drawing.Size(308, 29);
-            this.NamePlayerThree.TabIndex = 3;
+            this.NamePlayerOne.Font = new System.Drawing.Font("Consolas", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.NamePlayerOne.Location = new System.Drawing.Point(127, 33);
+            this.NamePlayerOne.Margin = new System.Windows.Forms.Padding(4);
+            this.NamePlayerOne.Name = "NamePlayerOne";
+            this.NamePlayerOne.Size = new System.Drawing.Size(308, 29);
+            this.NamePlayerOne.TabIndex = 3;
             // 
             // NamePlayerTwo
             // 
@@ -128,7 +128,7 @@
             this.Controls.Add(this.ClearButton);
             this.Controls.Add(this.MapFileName);
             this.Controls.Add(this.NamePlayerTwo);
-            this.Controls.Add(this.NamePlayerThree);
+            this.Controls.Add(this.NamePlayerOne);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -145,7 +145,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox NamePlayerThree;
+        private System.Windows.Forms.TextBox NamePlayerOne;
         private System.Windows.Forms.TextBox NamePlayerTwo;
         private System.Windows.Forms.TextBox MapFileName;
         private System.Windows.Forms.Button ClearButton;
