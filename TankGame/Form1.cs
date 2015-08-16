@@ -5,14 +5,20 @@
 
     public partial class Form1 : Form
     {
-        public Form1()
+        private Engine engine;
+
+        public Form1(Engine engine)
         {
+            this.engine = engine;
             this.InitializeComponent();
             this.StartButton.Select();
         }
         
         private void DoneButton_Click(object sender, EventArgs e)
         {
+            this.engine.SetPlayers(this.NamePlayerOne.Text, this.NamePlayerTwo.Text);
+            this.engine.Map = new MapFile(this.MapFileName.Text);
+
             Form2 form2 = new Form2(this.NamePlayerOne.Text, this.NamePlayerTwo.Text, this.MapFileName.Text);
             form2.ShowDialog();
             form2.Dispose();
