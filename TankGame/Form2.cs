@@ -240,7 +240,6 @@
                     {
                         this.tank2.Vertical -= gc.TankSpeed;
                         Point point1 = new Point(this.tank2.Horizontal, this.tank2.Vertical);
-                        Point point1 = new Point(this.tank2.Horizontal, this.tank2.Vertical);
                         this.redtank.Location = point1;
                     }
                     else    // Recoil

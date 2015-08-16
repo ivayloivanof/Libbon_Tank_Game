@@ -93,7 +93,7 @@
                 // Closes file
                 input.Close();
             }
-            catch(Exception e)  //TODO remove Exception
+            catch(System.Exception e)  //TODO remove Exception
             {
                 Console.WriteLine(e.Message);
             }
