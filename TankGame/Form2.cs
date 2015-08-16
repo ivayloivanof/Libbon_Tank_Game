@@ -7,8 +7,8 @@
     public partial class Form2 : Form
     {
         // Attributes
-        private string player1Name;
-        private string player2Name;
+        private string playerOneName;
+        private string playerTwoName;
         private string mapFile;
 
         Tank tank1;
@@ -42,400 +42,418 @@
         Bitmap greenimage2 = new Bitmap("GreenTank2.jpg");
         Bitmap greenimage3 = new Bitmap("GreenTank3.jpg");
 
-        public Form2(string p1, string p2, string mf)
+        public Form2(string playerOne, string playerTwo, string mapFile)
         {
             // Load data from previous form
-            InitializeComponent();
-            player1Name = p1;
-            player2Name = p2;
-            mapFile = mf;
+            this.InitializeComponent();
+            this.playerOneName = playerOne;
+            this.playerTwoName = playerTwo;
+            this.mapFile = mapFile;
 
             // Load MapFile data
-            Size = new System.Drawing.Size(800, 600);
-            MapFile file = new MapFile("C:\\Users\\Frankie\\Documents\\C#\\TankGame\\" + mapFile);
+            this.Size = new System.Drawing.Size(800, 600);
+            MapFile file = new MapFile("C:\\Users\\Frankie\\Documents\\C#\\TankGame\\" + this.mapFile);
             file.LoadData();
 
             // Load tanks for MapFile
-            tank1 = (Tank)file.Tanks[0];
-            tank2 = (Tank)file.Tanks[1];
+            this.tank1 = (Tank)file.Tanks[0];
+            this.tank2 = (Tank)file.Tanks[1];
 
             // Create tanks --------------------------------------------------------------------------------
 
             // Set locations of tanks
-            Point point1 = new Point(tank1.Horizontal, tank1.Vertical);
-            greentank.Location = point1;
-            Point point2 = new Point(tank2.Horizontal, tank2.Vertical);
-            redtank.Location = point2;
+            Point point1 = new Point(this.tank1.Horizontal, this.tank1.Vertical);
+            this.greentank.Location = point1;
+            Point point2 = new Point(this.tank2.Horizontal, this.tank2.Vertical);
+            this.redtank.Location = point2;
 
             // Set sizes of tanks
-            greentank.Size = new System.Drawing.Size(60, 60);
-            redtank.Size = new System.Drawing.Size(60, 60);
+            this.greentank.Size = new System.Drawing.Size(60, 60);
+            this.redtank.Size = new System.Drawing.Size(60, 60);
 
             // Set image of greentank
-            switch (tank1.Direction)
+            switch (this.tank1.Direction)
             {
                 case 0:
-                    greentank.Image = greenimage0;
+                    this.greentank.Image = this.greenimage0;
                     break;
                 case 1:
-                    greentank.Image = greenimage1;
+                    this.greentank.Image = this.greenimage1;
                     break;
                 case 2:
-                    greentank.Image = greenimage2;
+                    this.greentank.Image = this.greenimage2;
                     break;
                 case 3:
-                    greentank.Image = greenimage3;
+                    this.greentank.Image = this.greenimage3;
                     break;
             }
 
             // Set image of redtank
-            switch (tank2.Direction)
+            switch (this.tank2.Direction)
             {
                 case 0:
-                    redtank.Image = redimage0;
+                    this.redtank.Image = this.redimage0;
                     break;
                 case 1:
-                    redtank.Image = redimage1;
+                    this.redtank.Image = this.redimage1;
                     break;
                 case 2:
-                    redtank.Image = redimage2;
+                    this.redtank.Image = this.redimage2;
                     break;
                 case 3:
-                    redtank.Image = redimage3;
+                    this.redtank.Image = this.redimage3;
                     break;
             }
 
             // Add tanks to form
-            this.Controls.Add(greentank);
+            this.Controls.Add(this.greentank);
             this.Refresh();
-            this.Controls.Add(redtank);
+            this.Controls.Add(this.redtank);
             this.Refresh();
 
             // Create bullets ------------------------------------------------------------------------------
 
             // Set locations of bullets
             Point point3 = new Point(-100, -100);
-            bullet1.Location = point3;
-            bullet2.Location = point3;
+            this.bullet1.Location = point3;
+            this.bullet2.Location = point3;
 
             // Set sizes of bullets
-            bullet1.Size = new System.Drawing.Size(30, 30);
-            bullet2.Size = new System.Drawing.Size(30, 30);
+            this.bullet1.Size = new System.Drawing.Size(30, 30);
+            this.bullet2.Size = new System.Drawing.Size(30, 30);
 
             // Set image of bullets
-            bullet1.Image = bulletimage;
-            bullet2.Image = bulletimage;
+            this.bullet1.Image = this.bulletimage;
+            this.bullet2.Image = this.bulletimage;
 
             // Add bullets to form
-            this.Controls.Add(bullet1);
+            this.Controls.Add(this.bullet1);
             this.Refresh();
-            this.Controls.Add(bullet2);
+            this.Controls.Add(this.bullet2);
             this.Refresh();
 
             // Create walls --------------------------------------------------------------------------------
-            walls[0] = wall1;
-            walls[1] = wall2;
-            walls[2] = wall3;
-            walls[3] = wall4;
-            walls[4] = wall5;
+            this.walls[0] = this.wall1;
+            this.walls[1] = this.wall2;
+            this.walls[2] = this.wall3;
+            this.walls[3] = this.wall4;
+            this.walls[4] = this.wall5;
 
             // Set wall attributes and load to form
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 Wall newWall = (Wall)file.Walls[i];
                 Point point4 = new Point(newWall.Horizontal, newWall.Vertical);
-                walls[i].Location = point4;
-                walls[i].Size = new System.Drawing.Size(60,60);
-                walls[i].Image = wallimage;
-                this.Controls.Add(walls[i]);
+                this.walls[i].Location = point4;
+                this.walls[i].Size = new System.Drawing.Size(60,60);
+                this.walls[i].Image = this.wallimage;
+                this.Controls.Add(this.walls[i]);
                 this.Refresh();
             }
-            timer1.Start();
+
+            this.timer1.Start();
             this.Select();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             GameConstants gc = new GameConstants();
+
             // Get current direction, Move tank
-            switch (tank1.Direction)
+            switch (this.tank1.Direction)
             {
                 case 0:     // Move tank up
-                    greentank.Image = greenimage0;
-                    if (tank2.Vertical >= 0)
+                    this.greentank.Image = this.greenimage0;
+                    if (this.tank2.Vertical >= 0)
                     {
-                        tank1.Vertical -= gc.TankSpeed;
-                        Point pointa = new Point(tank1.Horizontal, tank1.Vertical);
-                        greentank.Location = pointa;
+                        this.tank1.Vertical -= gc.TankSpeed;
+                        Point pointa = new Point(this.tank1.Horizontal, this.tank1.Vertical);
+                        this.greentank.Location = pointa;
                     }
                     else    // Recoil
                     {
-                        tank1.Direction = 2;
-                        tank1.Vertical += gc.TankSpeed;
-                        Point point3 = new Point(tank1.Horizontal, tank1.Vertical);
-                        redtank.Location = point3;
+                        this.tank1.Direction = 2;
+                        this.tank1.Vertical += gc.TankSpeed;
+                        Point point3 = new Point(this.tank1.Horizontal, this.tank1.Vertical);
+                        this.redtank.Location = point3;
                     }
+
                     break;
                 case 1:     // Move tank right
-                    greentank.Image = greenimage1;
-                    if (tank1.Horizontal <= gc.GameWidth)
+                    this.greentank.Image = this.greenimage1;
+                    if (this.tank1.Horizontal <= gc.GameWidth)
                     {
-                        tank1.Horizontal += gc.TankSpeed;
-                        Point pointb = new Point(tank1.Horizontal, tank1.Vertical);
-                        greentank.Location = pointb;
+                        this.tank1.Horizontal += gc.TankSpeed;
+                        Point pointb = new Point(this.tank1.Horizontal, this.tank1.Vertical);
+                        this.greentank.Location = pointb;
                     }
                     else    // Recoil
                     {
-                        tank1.Direction = 3;
-                        tank1.Horizontal -= gc.TankSpeed;
-                        Point point3 = new Point(tank1.Horizontal, tank1.Vertical);
-                        redtank.Location = point3;
+                        this.tank1.Direction = 3;
+                        this.tank1.Horizontal -= gc.TankSpeed;
+                        Point point3 = new Point(this.tank1.Horizontal, this.tank1.Vertical);
+                        this.redtank.Location = point3;
                     }
+
                     break;
                 case 2:     // Move tank down
-                    greentank.Image = greenimage2;
-                    if (tank1.Vertical <= gc.GameHeight)
+                    this.greentank.Image = this.greenimage2;
+                    if (this.tank1.Vertical <= gc.GameHeight)
                     {
-                        tank1.Vertical += gc.TankSpeed;
-                        Point pointc = new Point(tank1.Horizontal, tank1.Vertical);
-                        greentank.Location = pointc;
+                        this.tank1.Vertical += gc.TankSpeed;
+                        Point pointc = new Point(this.tank1.Horizontal, this.tank1.Vertical);
+                        this.greentank.Location = pointc;
                     }
                     else    // Recoil
                     {
-                        tank1.Direction = 0;
-                        tank1.Vertical -= gc.TankSpeed;
-                        Point point3 = new Point(tank1.Horizontal, tank1.Vertical);
-                        redtank.Location = point3;
+                        this.tank1.Direction = 0;
+                        this.tank1.Vertical -= gc.TankSpeed;
+                        Point point3 = new Point(this.tank1.Horizontal, this.tank1.Vertical);
+                        this.redtank.Location = point3;
                     }
+
                     break;
                 case 3:     // Move tank left
-                    greentank.Image = greenimage3;
-                    if (tank1.Horizontal >= 0)
+                    this.greentank.Image = this.greenimage3;
+                    if (this.tank1.Horizontal >= 0)
                     {
-                        tank1.Horizontal -= gc.TankSpeed;
-                        Point pointd = new Point(tank1.Horizontal, tank1.Vertical);
-                        greentank.Location = pointd;
+                        this.tank1.Horizontal -= gc.TankSpeed;
+                        Point pointd = new Point(this.tank1.Horizontal, this.tank1.Vertical);
+                        this.greentank.Location = pointd;
                     }
                     else    // Recoil
                     {
-                        tank1.Direction = 1;
-                        tank1.Horizontal += gc.TankSpeed;
-                        Point point3 = new Point(tank1.Horizontal, tank1.Vertical);
-                        redtank.Location = point3;
+                        this.tank1.Direction = 1;
+                        this.tank1.Horizontal += gc.TankSpeed;
+                        Point point3 = new Point(this.tank1.Horizontal, this.tank1.Vertical);
+                        this.redtank.Location = point3;
                     }
+
                     break;
             }
-            switch (tank2.Direction)
+
+            switch (this.tank2.Direction)
             {
                 case 0:     // Move tank up
-                    redtank.Image = redimage0;
-                    if (tank2.Vertical >= 0)
+                    this.redtank.Image = this.redimage0;
+                    if (this.tank2.Vertical >= 0)
                     {
-                        tank2.Vertical -= gc.TankSpeed;
-                        Point point1 = new Point(tank2.Horizontal, tank2.Vertical);
-                        redtank.Location = point1;
+                        this.tank2.Vertical -= gc.TankSpeed;
+                        Point point1 = new Point(this.tank2.Horizontal, this.tank2.Vertical);
+                        Point point1 = new Point(this.tank2.Horizontal, this.tank2.Vertical);
+                        this.redtank.Location = point1;
                     }
                     else    // Recoil
                     {
-                        tank2.Direction = 2;
-                        tank2.Vertical += gc.TankSpeed;
-                        Point point3 = new Point(tank2.Horizontal, tank2.Vertical);
-                        redtank.Location = point3;
+                        this.tank2.Direction = 2;
+                        this.tank2.Vertical += gc.TankSpeed;
+                        Point point3 = new Point(this.tank2.Horizontal, this.tank2.Vertical);
+                        this.redtank.Location = point3;
                     }
+
                     break;
                 case 1:     // Move tank right
-                    redtank.Image = redimage1;
-                    if (tank2.Horizontal <= gc.GameWidth)
+                    this.redtank.Image = this.redimage1;
+                    if (this.tank2.Horizontal <= gc.GameWidth)
                     {
-                        tank2.Horizontal += gc.TankSpeed;
-                        Point point2 = new Point(tank2.Horizontal, tank2.Vertical);
-                        redtank.Location = point2;
+                        this.tank2.Horizontal += gc.TankSpeed;
+                        Point point2 = new Point(this.tank2.Horizontal, this.tank2.Vertical);
+                        this.redtank.Location = point2;
                     }
                     else    // Recoil
                     {
-                        tank2.Direction = 3;
-                        tank2.Horizontal -= gc.TankSpeed;
-                        Point point3 = new Point(tank2.Horizontal, tank2.Vertical);
-                        redtank.Location = point3;
+                        this.tank2.Direction = 3;
+                        this.tank2.Horizontal -= gc.TankSpeed;
+                        Point point3 = new Point(this.tank2.Horizontal, this.tank2.Vertical);
+                        this.redtank.Location = point3;
                     }
+
                     break;
                 case 2:     // Move tank down
-                    redtank.Image = redimage2;
-                    if (tank2.Vertical <= gc.GameHeight)
+                    this.redtank.Image = this.redimage2;
+                    if (this.tank2.Vertical <= gc.GameHeight)
                     {
-                        tank2.Vertical += gc.TankSpeed;
-                        Point point3 = new Point(tank2.Horizontal, tank2.Vertical);
-                        redtank.Location = point3;
+                        this.tank2.Vertical += gc.TankSpeed;
+                        Point point3 = new Point(this.tank2.Horizontal, this.tank2.Vertical);
+                        this.redtank.Location = point3;
                     }
                     else    // Recoil
                     {
-                        tank2.Direction = 0;
-                        tank2.Vertical -= gc.TankSpeed;
+                        this.tank2.Direction = 0;
+                        this.tank2.Vertical -= gc.TankSpeed;
                         Point point3 = new Point(tank2.Horizontal, tank2.Vertical);
-                        redtank.Location = point3;
+                        this.redtank.Location = point3;
                     }
+
                     break;
                 case 3:     // Move tank left
-                    redtank.Image = redimage3;
-                    if (tank2.Horizontal >= 0)
+                    this.redtank.Image = this.redimage3;
+                    if (this.tank2.Horizontal >= 0)
                     {
-                        tank2.Horizontal -= gc.TankSpeed;
-                        Point point4 = new Point(tank2.Horizontal, tank2.Vertical);
-                        redtank.Location = point4;
+                        this.tank2.Horizontal -= gc.TankSpeed;
+                        Point point4 = new Point(this.tank2.Horizontal, this.tank2.Vertical);
+                        this.redtank.Location = point4;
                     }
                     else    // Recoil
                     {
-                        tank2.Direction = 1;
-                        tank2.Horizontal += gc.TankSpeed;
-                        Point point3 = new Point(tank2.Horizontal, tank2.Vertical);
-                        redtank.Location = point3;
+                        this.tank2.Direction = 1;
+                        this.tank2.Horizontal += gc.TankSpeed;
+                        Point point3 = new Point(this.tank2.Horizontal, this.tank2.Vertical);
+                        this.redtank.Location = point3;
                     }
+
                     break;
             }
 
             // Get current direction, Move bullet
-            switch (bull1.Direction)
+            switch (this.bull1.Direction)
             {
                 case 0:
-                    if (bull1.Vertical >= 0)
+                    if (this.bull1.Vertical >= 0)
                     {
-                        bull1.Vertical -= gc.BulletSpeed;
-                        Point point = new Point(bull1.Horizontal, bull1.Vertical);
-                        bullet1.Location = point;
+                        this.bull1.Vertical -= gc.BulletSpeed;
+                        Point point = new Point(this.bull1.Horizontal, this.bull1.Vertical);
+                        this.bullet1.Location = point;
                     }
                     else
                     {
-                        bull1.Vertical = -100;
-                        bull1.Horizontal = -100;
-                        bull1.Direction = 0;
-                        Point point = new Point(bull1.Horizontal, bull1.Vertical);
-                        bullet1.Location = point;
-                        tank1.CanFire = true;
+                        this.bull1.Vertical = -100;
+                        this.bull1.Horizontal = -100;
+                        this.bull1.Direction = 0;
+                        Point point = new Point(this.bull1.Horizontal, this.bull1.Vertical);
+                        this.bullet1.Location = point;
+                        this.tank1.CanFire = true;
+                    }
+
+                    break;
+                case 1:
+                    if (this.bull1.Horizontal <= gc.GameWidth)
+                    {
+                        this.bull1.Horizontal += gc.BulletSpeed;
+                        Point point = new Point(this.bull1.Horizontal, this.bull1.Vertical);
+                        this.bullet1.Location = point;
+                    }
+                    else
+                    {
+                        this.bull1.Vertical = -100;
+                        this.bull1.Horizontal = -100;
+                        this.bull1.Direction = 0;
+                        Point point = new Point(this.bull1.Horizontal, this.bull1.Vertical);
+                        this.bullet1.Location = point;
+                        this.tank1.CanFire = true;
+                    }
+
+                    break;
+                case 2:
+                    if (this.bull1.Vertical <= gc.GameHeight)
+                    {
+                        this.bull1.Vertical += gc.BulletSpeed;
+                        Point point = new Point(this.bull1.Horizontal, this.bull1.Vertical);
+                        this.bullet1.Location = point;
+                    }
+                    else
+                    {
+                        this.bull1.Vertical = -100;
+                        this.bull1.Horizontal = -100;
+                        this.bull1.Direction = 0;
+                        Point point = new Point(this.bull1.Horizontal, this.bull1.Vertical);
+                        this.bullet1.Location = point;
+                        this.tank1.CanFire = true;
+                    }
+
+                    break;
+                case 3:
+                    if (this.bull1.Horizontal >= 0)
+                    {
+                        this.bull1.Horizontal -= gc.BulletSpeed;
+                        Point point = new Point(this.bull1.Horizontal, this.bull1.Vertical);
+                        this.bullet1.Location = point;
+                    }
+                    else
+                    {
+                        this.bull1.Vertical = -100;
+                        this.bull1.Horizontal = -100;
+                        this.bull1.Direction = 0;
+                        Point point = new Point(this.bull1.Horizontal, this.bull1.Vertical);
+                        this.bullet1.Location = point;
+                        this.tank1.CanFire = true;
+                    }
+
+                    break;
+            }
+
+            switch (this.bull2.Direction)
+            {
+                case 0:
+                    if (this.bull2.Vertical >= 0)
+                    {
+                        this.bull2.Vertical -= gc.BulletSpeed;
+                        Point point = new Point(this.bull2.Horizontal, this.bull2.Vertical);
+                        this.bullet2.Location = point;
+                    }
+                    else
+                    {
+                        this.bull2.Vertical = -100;
+                        this.bull2.Horizontal = -100;
+                        this.bull2.Direction = 0;
+                        Point point = new Point(this.bull2.Horizontal, this.bull2.Vertical);
+                        this.bullet2.Location = point;
+                        this.tank2.CanFire = true;
                     }
                     break;
                 case 1:
-                    if (bull1.Horizontal <= gc.GameWidth)
+                    if (this.bull2.Horizontal <= gc.GameWidth)
                     {
-                        bull1.Horizontal += gc.BulletSpeed;
-                        Point point = new Point(bull1.Horizontal, bull1.Vertical);
-                        bullet1.Location = point;
+                        this.bull2.Horizontal += gc.BulletSpeed;
+                        Point point = new Point(this.bull2.Horizontal, this.bull2.Vertical);
+                        this.bullet2.Location = point;
                     }
                     else
                     {
-                        bull1.Vertical = -100;
-                        bull1.Horizontal = -100;
-                        bull1.Direction = 0;
-                        Point point = new Point(bull1.Horizontal, bull1.Vertical);
-                        bullet1.Location = point;
-                        tank1.CanFire = true;
+                        this.bull2.Vertical = -100;
+                        this.bull2.Horizontal = -100;
+                        this.bull2.Direction = 0;
+                        Point point = new Point(this.bull2.Horizontal, this.bull2.Vertical);
+                        this.bullet2.Location = point;
+                        this.tank2.CanFire = true;
                     }
                     break;
                 case 2:
-                    if (bull1.Vertical <= gc.GameHeight)
+                    if (this.bull2.Vertical <= gc.GameHeight)
                     {
-                        bull1.Vertical += gc.BulletSpeed;
-                        Point point = new Point(bull1.Horizontal, bull1.Vertical);
-                        bullet1.Location = point;
+                        this.bull2.Vertical += gc.BulletSpeed;
+                        Point point = new Point(this.bull2.Horizontal, this.bull2.Vertical);
+                        this.bullet2.Location = point;
                     }
                     else
                     {
-                        bull1.Vertical = -100;
-                        bull1.Horizontal = -100;
-                        bull1.Direction = 0;
-                        Point point = new Point(bull1.Horizontal, bull1.Vertical);
-                        bullet1.Location = point;
-                        tank1.CanFire = true;
+                        this.bull2.Vertical = -100;
+                        this.bull2.Horizontal = -100;
+                        this.bull2.Direction = 0;
+                        Point point = new Point(this.bull2.Horizontal, this.bull2.Vertical);
+                        this.bullet2.Location = point;
+                        this.tank2.CanFire = true;
                     }
                     break;
                 case 3:
-                    if (bull1.Horizontal >= 0)
+                    if (this.bull2.Horizontal >= 0)
                     {
-                        bull1.Horizontal -= gc.BulletSpeed;
-                        Point point = new Point(bull1.Horizontal, bull1.Vertical);
-                        bullet1.Location = point;
+                        this.bull2.Horizontal -= gc.BulletSpeed;
+                        Point point = new Point(this.bull2.Horizontal, this.bull2.Vertical);
+                        this.bullet2.Location = point;
                     }
                     else
                     {
-                        bull1.Vertical = -100;
-                        bull1.Horizontal = -100;
-                        bull1.Direction = 0;
-                        Point point = new Point(bull1.Horizontal, bull1.Vertical);
-                        bullet1.Location = point;
-                        tank1.CanFire = true;
+                        this.bull2.Vertical = -100;
+                        this.bull2.Horizontal = -100;
+                        this.bull2.Direction = 0;
+                        Point point = new Point(this.bull2.Horizontal, this.bull2.Vertical);
+                        this.bullet2.Location = point;
+                        this.tank2.CanFire = true;
                     }
                     break;
             }
-            switch (bull2.Direction)
-            {
-                case 0:
-                    if (bull2.Vertical >= 0)
-                    {
-                        bull2.Vertical -= gc.BulletSpeed;
-                        Point point = new Point(bull2.Horizontal, bull2.Vertical);
-                        bullet2.Location = point;
-                    }
-                    else
-                    {
-                        bull2.Vertical = -100;
-                        bull2.Horizontal = -100;
-                        bull2.Direction = 0;
-                        Point point = new Point(bull2.Horizontal, bull2.Vertical);
-                        bullet2.Location = point;
-                        tank2.CanFire = true;
-                    }
-                    break;
-                case 1:
-                    if (bull2.Horizontal <= gc.GameWidth)
-                    {
-                        bull2.Horizontal += gc.BulletSpeed;
-                        Point point = new Point(bull2.Horizontal, bull2.Vertical);
-                        bullet2.Location = point;
-                    }
-                    else
-                    {
-                        bull2.Vertical = -100;
-                        bull2.Horizontal = -100;
-                        bull2.Direction = 0;
-                        Point point = new Point(bull2.Horizontal, bull2.Vertical);
-                        bullet2.Location = point;
-                        tank2.CanFire = true;
-                    }
-                    break;
-                case 2:
-                    if (bull2.Vertical <= gc.GameHeight)
-                    {
-                        bull2.Vertical += gc.BulletSpeed;
-                        Point point = new Point(bull2.Horizontal, bull2.Vertical);
-                        bullet2.Location = point;
-                    }
-                    else
-                    {
-                        bull2.Vertical = -100;
-                        bull2.Horizontal = -100;
-                        bull2.Direction = 0;
-                        Point point = new Point(bull2.Horizontal, bull2.Vertical);
-                        bullet2.Location = point;
-                        tank2.CanFire = true;
-                    }
-                    break;
-                case 3:
-                    if (bull2.Horizontal >= 0)
-                    {
-                        bull2.Horizontal -= gc.BulletSpeed;
-                        Point point = new Point(bull2.Horizontal, bull2.Vertical);
-                        bullet2.Location = point;
-                    }
-                    else
-                    {
-                        bull2.Vertical = -100;
-                        bull2.Horizontal = -100;
-                        bull2.Direction = 0;
-                        Point point = new Point(bull2.Horizontal, bull2.Vertical);
-                        bullet2.Location = point;
-                        tank2.CanFire = true;
-                    }
-                    break;
-            }
+
             Refresh();
         }
 
@@ -446,120 +464,126 @@
             switch (e.KeyData)
             {
                 case Keys.W:    // Tank faces up
-                    tank1.Direction = 0;
-                    greentank.Image = greenimage0;
+                    this.tank1.Direction = 0;
+                    this.greentank.Image = this.greenimage0;
                     break;
                 case Keys.D:    // Tank faces right
-                    tank1.Direction = 1;
-                    greentank.Image = greenimage1;
+                    this.tank1.Direction = 1;
+                    this.greentank.Image = this.greenimage1;
                     break;
                 case Keys.S:    // Tank faces down
-                    tank1.Direction = 2;
-                    greentank.Image = greenimage2;
+                    this.tank1.Direction = 2;
+                    this.greentank.Image = this.greenimage2;
                     break;
                 case Keys.A:    // Tank faces left
-                    tank1.Direction = 3;
-                    greentank.Image = greenimage3;
+                    this.tank1.Direction = 3;
+                    this.greentank.Image = this.greenimage3;
                     break;
                 case Keys.F:    // Bullet appears
-                    if (tank1.Direction == 0 && tank1.CanFire == true)
+                    if (this.tank1.Direction == 0 && this.tank1.CanFire == true)
                     {
-                        Point point1 = new Point(tank1.Horizontal + (gc.BulletWidth / 2), tank1.Vertical
-                            - gc.BulletHeight);
-                        bullet1.Location = point1;
-                        bull1.Vertical = (tank1.Vertical - gc.BulletHeight);
-                        bull1.Horizontal = (tank1.Horizontal + (gc.BulletWidth / 2));
-                        bull1.Direction = 0;
-                        tank1.CanFire = false;
+                        Point point1 = new Point(
+                            this.tank1.Horizontal + (gc.BulletWidth / 2),
+                            this.tank1.Vertical - gc.BulletHeight);
+                        this.bullet1.Location = point1;
+                        this.bull1.Vertical = this.tank1.Vertical - gc.BulletHeight;
+                        this.bull1.Horizontal = this.tank1.Horizontal + (gc.BulletWidth / 2);
+                        this.bull1.Direction = 0;
+                        this.tank1.CanFire = false;
                     }
-                    else if (tank1.Direction == 1 && tank1.CanFire == true)
+                    else if (this.tank1.Direction == 1 && this.tank1.CanFire == true)
                     {
-                        Point point2 = new Point(tank1.Horizontal + gc.ImageWidth, tank1.Vertical
+                        Point point2 = new Point(this.tank1.Horizontal + gc.ImageWidth, this.tank1.Vertical
                             + (gc.BulletWidth / 2));
-                        bullet1.Location = point2;
-                        bull1.Vertical = (tank1.Vertical + (gc.BulletHeight / 2));
-                        bull1.Horizontal = (tank1.Horizontal + gc.ImageWidth);
-                        bull1.Direction = 1;
-                        tank1.CanFire = false;
+                        this.bullet1.Location = point2;
+                        this.bull1.Vertical = (this.tank1.Vertical + (gc.BulletHeight / 2));
+                        this.bull1.Horizontal = (this.tank1.Horizontal + gc.ImageWidth);
+                        this.bull1.Direction = 1;
+                        this.tank1.CanFire = false;
                     }
-                    else if (tank1.Direction == 2 && tank1.CanFire == true)
+                    else if (this.tank1.Direction == 2 && this.tank1.CanFire == true)
                     {
-                        Point point3 = new Point(tank1.Horizontal + (gc.BulletWidth/2), 
-                            tank1.Vertical + gc.ImageHeight);
-                        bullet1.Location = point3;
-                        bull1.Vertical = (tank1.Vertical + gc.ImageHeight);
-                        bull1.Horizontal = (tank1.Horizontal + (gc.BulletWidth / 2));
-                        bull1.Direction = 2;
-                        tank1.CanFire = false;
+                        Point point3 = new Point(
+                            this.tank1.Horizontal + (gc.BulletWidth / 2),
+                            this.tank1.Vertical + gc.ImageHeight);
+                        this.bullet1.Location = point3;
+                        this.bull1.Vertical = (this.tank1.Vertical + gc.ImageHeight);
+                        this.bull1.Horizontal = (this.tank1.Horizontal + (gc.BulletWidth / 2));
+                        this.bull1.Direction = 2;
+                        this.tank1.CanFire = false;
                     }
-                    else if (tank1.Direction == 3 && tank1.CanFire == true)
+                    else if (this.tank1.Direction == 3 && this.tank1.CanFire == true)
                     {
-                        Point point4 = new Point(tank1.Horizontal - gc.BulletWidth,
-                            tank1.Vertical + (gc.BulletWidth / 2));
-                        bullet1.Location = point4;
-                        bull1.Vertical = (tank1.Vertical + (gc.BulletWidth / 2));
-                        bull1.Horizontal = (tank1.Horizontal - gc.BulletWidth);
-                        bull1.Direction = 3;
-                        tank1.CanFire = false;
+                        Point point4 = new Point(this.tank1.Horizontal - gc.BulletWidth,
+                            this.tank1.Vertical + (gc.BulletWidth / 2));
+                        this.bullet1.Location = point4;
+                        this.bull1.Vertical = (this.tank1.Vertical + (gc.BulletWidth / 2));
+                        this.bull1.Horizontal = (this.tank1.Horizontal - gc.BulletWidth);
+                        this.bull1.Direction = 3;
+                        this.tank1.CanFire = false;
                     }
+
                     break;
                 case Keys.I:       // Tank faces up
-                    tank2.Direction = 0;
-                    redtank.Image = redimage0;
+                    this.tank2.Direction = 0;
+                    this.redtank.Image = this.redimage0;
                     break;
                 case Keys.L:    // Tank faces right
-                    tank2.Direction = 1;
-                    redtank.Image = redimage1;
+                    this.tank2.Direction = 1;
+                    this.redtank.Image = this.redimage1;
                     break;
                 case Keys.K:     // Tank faces down
-                    tank2.Direction = 2;
-                    redtank.Image = redimage2;
+                    this.tank2.Direction = 2;
+                    this.redtank.Image = this.redimage2;
                     break;
                 case Keys.J:     // Tank faces left
-                    tank2.Direction = 3;
-                    redtank.Image = redimage3;
+                    this.tank2.Direction = 3;
+                    this.redtank.Image = this.redimage3;
                     break;
                 case Keys.H:     // Bullet appears
-                    if (tank2.Direction == 0 && tank2.CanFire == true)
+                    if (this.tank2.Direction == 0 && this.tank2.CanFire == true)
                     {
-                        Point point1 = new Point(tank2.Horizontal + (gc.BulletWidth / 2), tank2.Vertical
-                            - gc.BulletHeight);
-                        bullet2.Location = point1;
-                        bull2.Vertical = (tank2.Vertical - gc.BulletHeight);
-                        bull2.Horizontal = (tank2.Horizontal + (gc.BulletWidth / 2));
-                        bull2.Direction = 0;
-                        tank2.CanFire = false;
+                        Point point1 = new Point(
+                            this.tank2.Horizontal + (gc.BulletWidth / 2),
+                            this.tank2.Vertical - gc.BulletHeight);
+                        this.bullet2.Location = point1;
+                        this.bull2.Vertical = this.tank2.Vertical - gc.BulletHeight;
+                        this.bull2.Horizontal = this.tank2.Horizontal + (gc.BulletWidth / 2);
+                        this.bull2.Direction = 0;
+                        this.tank2.CanFire = false;
                     }
-                    else if (tank2.Direction == 1 && tank2.CanFire == true)
+                    else if (this.tank2.Direction == 1 && this.tank2.CanFire == true)
                     {
-                        Point point2 = new Point(tank2.Horizontal + gc.ImageWidth, tank2.Vertical
+                        Point point2 = new Point(this.tank2.Horizontal + gc.ImageWidth, this.tank2.Vertical
                             + (gc.BulletHeight / 2));
-                        bullet2.Location = point2;
-                        bull2.Vertical = (tank2.Vertical + (gc.BulletHeight / 2));
-                        bull2.Horizontal = (tank2.Horizontal + gc.ImageWidth);
-                        bull2.Direction = 1;
-                        tank2.CanFire = false;
+                        this.bullet2.Location = point2;
+                        this.bull2.Vertical = (this.tank2.Vertical + (gc.BulletHeight / 2));
+                        this.bull2.Horizontal = (this.tank2.Horizontal + gc.ImageWidth);
+                        this.bull2.Direction = 1;
+                        this.tank2.CanFire = false;
                     }
-                    else if (tank2.Direction == 2 && tank2.CanFire == true)
+                    else if (this.tank2.Direction == 2 && this.tank2.CanFire == true)
                     {
-                        Point point3 = new Point(tank2.Horizontal + (gc.BulletWidth / 2),
-                            tank2.Vertical + gc.ImageHeight);
-                        bullet2.Location = point3;
-                        bull2.Vertical = (tank2.Vertical + gc.ImageHeight);
-                        bull2.Horizontal = (tank2.Horizontal + (gc.BulletWidth / 2));
-                        bull2.Direction = 2;
-                        tank2.CanFire = false;
+                        Point point3 = new Point(this.tank2.Horizontal + (gc.BulletWidth / 2),
+                            this.tank2.Vertical + gc.ImageHeight);
+                        this.bullet2.Location = point3;
+                        this.bull2.Vertical = (this.tank2.Vertical + gc.ImageHeight);
+                        this.bull2.Horizontal = (this.tank2.Horizontal + (gc.BulletWidth / 2));
+                        this.bull2.Direction = 2;
+                        this.tank2.CanFire = false;
                     }
                     else if (tank2.Direction == 3 && tank2.CanFire == true)
                     {
-                        Point point4 = new Point(tank2.Horizontal - gc.BulletWidth,
-                            tank2.Vertical + (gc.BulletWidth/2));
-                        bullet2.Location = point4;
-                        bull2.Vertical = (tank2.Vertical + (gc.BulletWidth / 2));
-                        bull2.Horizontal = (tank2.Horizontal - gc.BulletWidth);
-                        bull2.Direction = 3;
-                        tank2.CanFire = false;
+                        Point point4 = new Point(
+                            this.tank2.Horizontal - gc.BulletWidth,
+                            this.tank2.Vertical + (gc.BulletWidth / 2));
+                        this.bullet2.Location = point4;
+                        this.bull2.Vertical = (this.tank2.Vertical + (gc.BulletWidth / 2));
+                        this.bull2.Horizontal = (this.tank2.Horizontal - gc.BulletWidth);
+                        this.bull2.Direction = 3;
+                        this.tank2.CanFire = false;
                     }
+
                     break;
             }
         }
